@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -141,7 +142,7 @@ class _CharacterListViewState extends State<CharacterListView> {
               controller: _scrollController);
         } else if (state is CharacterError) {
           logger.error("‼️ ERROR! CharacterError:", state.error);
-          return ErrorView(state.error);
+          return ErrorView(error: state.error);
         } else if (state is CharacterTimeoutError) {
           logger.error("‼️ ERROR! CharacterTimeoutError:", state.error);
           SchedulerBinding.instance.addPostFrameCallback((_) async {
