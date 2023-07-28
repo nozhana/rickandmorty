@@ -9,6 +9,7 @@ class BaseNavigatableScaffold extends StatefulWidget {
 
   final beamerKey = GlobalKey<BeamerState>();
   static const int breakingPoint = 640;
+  static const int desktopBreakingPoint = 980;
 
   @override
   State<BaseNavigatableScaffold> createState() =>
@@ -47,7 +48,8 @@ class _BaseNavigatableScaffoldState extends State<BaseNavigatableScaffold> {
                 SafeArea(
                   right: false,
                   child: NavigationRail(
-                    extended: MediaQuery.of(context).size.width > 1000,
+                    extended: MediaQuery.of(context).size.width >
+                        BaseNavigatableScaffold.desktopBreakingPoint,
                     selectedLabelTextStyle: theme().textTheme.bodyLarge,
                     unselectedLabelTextStyle: theme()
                         .textTheme

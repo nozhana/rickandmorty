@@ -4,7 +4,8 @@ import 'package:rickandmorty/config/theme/app_themes.dart';
 
 class ErrorView extends StatelessWidget {
   final DioError? error;
-  const ErrorView(this.error, {Key? key}) : super(key: key);
+  final String? errorMessage;
+  const ErrorView({this.error, this.errorMessage, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class ErrorView extends StatelessWidget {
               ),
               const Spacer(),
               Text(
-                error!.message,
+                error?.message ?? errorMessage ?? "No error description",
                 style: TextStyle(
                     color: Colors.red.shade200,
                     fontSize: 16.0,

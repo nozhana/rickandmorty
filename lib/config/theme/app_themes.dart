@@ -26,7 +26,7 @@ AppBarTheme _appBarTheme() {
     toolbarHeight: kToolbarHeight + 24,
     titleTextStyle: TextStyle(
       color: Colors.white38,
-      height: 2.5,
+      height: 3,
       fontFamily: "GigaSans",
       fontSize: 34,
       fontWeight: FontWeight.w600,

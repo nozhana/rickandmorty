@@ -81,9 +81,8 @@ Widget _charactersGridTile(
   return GestureDetector(
     onTap: () {
       HapticFeedback.lightImpact();
-      ScaffoldMessenger.of(context)
-        ..clearSnackBars()
-        ..showSnackBar(comingSoonSnackbar());
+      context.beamToNamed('/characters/${characterEntities[index].id}',
+          data: {'characterName': characterEntities[index].name});
     },
     child: DecoratedBox(
       decoration: BoxDecoration(
