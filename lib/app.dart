@@ -34,6 +34,7 @@ class RickAndMortyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      title: "Rick & Morty",
       theme: theme(),
       routerDelegate: beamerRouterDelegate,
       routeInformationParser: BeamerRouteInformationParser(),

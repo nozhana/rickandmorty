@@ -1,4 +1,5 @@
 import 'package:beamer/beamer.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rickandmorty/core/resources/navigation/beam_locations/beam_locations.dart';
 
@@ -40,19 +41,24 @@ class BaseNavigationBarState extends State<BaseNavigationBar> {
                 ? 1
                 : 0;
 
-    return BottomNavigationBar(
-      currentIndex: _currentIndex,
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(label: "Characters", icon: Icon(Icons.people)),
-        BottomNavigationBarItem(
-            label: "Locations", icon: Icon(Icons.location_on)),
-        BottomNavigationBarItem(label: "Episodes", icon: Icon(Icons.tv)),
-      ],
-      onTap: (index) => _beamerRouterDelegate.beamToNamed(index == 2
-          ? '/episodes'
-          : index == 1
-              ? '/locations'
-              : '/characters'),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: kIsWeb ? 28 : 0),
+      child: BottomNavigationBar(
+        elevation: 0,
+        currentIndex: _currentIndex,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+              label: "Characters", icon: Icon(Icons.people)),
+          BottomNavigationBarItem(
+              label: "Locations", icon: Icon(Icons.location_on)),
+          BottomNavigationBarItem(label: "Episodes", icon: Icon(Icons.tv)),
+        ],
+        onTap: (index) => _beamerRouterDelegate.beamToNamed(index == 2
+            ? '/episodes'
+            : index == 1
+                ? '/locations'
+                : '/characters'),
+      ),
     );
   }
 }
