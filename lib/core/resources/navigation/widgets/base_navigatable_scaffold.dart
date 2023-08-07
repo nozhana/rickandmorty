@@ -94,7 +94,8 @@ class _BaseNavigatableScaffoldState extends State<BaseNavigatableScaffold> {
                     }),
                   ),
                 ),
-                const VerticalDivider(thickness: 1, width: 1),
+                VerticalDivider(
+                    thickness: 1, width: 1, color: Colors.grey.shade200),
                 Expanded(
                     child: Beamer(
                         key: widget.beamerKey,
