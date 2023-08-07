@@ -12,6 +12,7 @@ import 'package:rickandmorty/core/constants/constants.dart';
 import 'package:rickandmorty/core/resources/views/error/empty_view.dart';
 import 'package:rickandmorty/core/resources/views/error/error_view.dart';
 import 'package:rickandmorty/core/resources/views/loading/loading_view.dart';
+import 'package:rickandmorty/core/resources/widgets/snackbars/snackbars.dart';
 import 'package:rickandmorty/features/character/domain/entities/character_entity.dart';
 import 'package:rickandmorty/features/character/presentation/bloc/character_bloc.dart';
 import 'package:rickandmorty/features/character/presentation/widgets/gender_bottom_sheet.dart';
@@ -63,12 +64,12 @@ class _CharacterListViewState extends State<CharacterListView> {
       child: NotificationListener<UserScrollNotification>(
         onNotification: (notification) {
           switch (notification.direction) {
-            case ScrollDirection.reverse:
             case ScrollDirection.forward:
-              setState(() => _showFab = false);
-              break;
             case ScrollDirection.idle:
               setState(() => _showFab = true);
+              break;
+            case ScrollDirection.reverse:
+              setState(() => _showFab = false);
               break;
           }
           return true;
@@ -179,8 +180,8 @@ class _CharacterListViewState extends State<CharacterListView> {
           animatedIconTheme: const IconThemeData(color: Colors.white),
           backgroundColor: theme().primaryColor,
           activeBackgroundColor: theme().primaryColorDark,
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(16.0))),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
           label: const Text(
             "Filters",
             style: TextStyle(

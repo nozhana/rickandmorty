@@ -51,7 +51,7 @@ Widget _charactersGridView(
   return Container(
     margin: EdgeInsets.symmetric(horizontal: horizontalContentPadding),
     decoration: BoxDecoration(
-      color: theme().backgroundColor,
+      color: theme().colorScheme.background,
     ),
     child: GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -146,7 +146,7 @@ CachedNetworkImage _networkImage(String imageUrl, int width) {
     placeholder: (context, url) => Center(
       child: SizedBox.expand(
           child: Container(
-        color: theme().backgroundColor,
+        color: theme().colorScheme.background,
       )),
     ),
   );

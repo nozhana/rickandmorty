@@ -9,6 +9,11 @@ import 'package:rickandmorty/features/character/data/repositories/character_repo
 import 'package:rickandmorty/features/character/domain/repositories/character_repository.dart';
 import 'package:rickandmorty/features/character/domain/usecases/character_usecases.dart';
 import 'package:rickandmorty/features/character/presentation/bloc/character_bloc.dart';
+import 'package:rickandmorty/features/episode/data/datasources/remote/episode_api_service.dart';
+import 'package:rickandmorty/features/episode/data/repositories/episode_repository_impl.dart';
+import 'package:rickandmorty/features/episode/domain/repositories/episode_repository.dart';
+import 'package:rickandmorty/features/episode/domain/usecases/episode_usecases.dart';
+import 'package:rickandmorty/features/episode/presentation/bloc/episode_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -31,16 +36,29 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<CharacterApiService>(CharacterApiService(sl()));
   sl.registerSingleton<CharacterRepository>(CharacterRepositoryImpl(sl()));
 
-  // Usecases
+  sl.registerSingleton<EpisodeApiService>(EpisodeApiService(sl()));
+  sl.registerSingleton<EpisodeRepository>(EpisodeRepositoryImpl(sl()));
+
+  // UseCases
   sl.registerSingleton<GetCharacterUseCase>(GetCharacterUseCase(sl()));
-  sl.registerSingleton<GetAllCharactersUsecase>(GetAllCharactersUsecase(sl()));
+  sl.registerSingleton<GetAllCharactersUseCase>(GetAllCharactersUseCase(sl()));
   sl.registerSingleton<FilterCharactersUseCase>(FilterCharactersUseCase(sl()));
-  sl.registerSingleton<GetMoreCharactersUsecase>(
-      GetMoreCharactersUsecase(sl()));
-  sl.registerSingleton<FilterMoreCharactersUsecase>(
-      FilterMoreCharactersUsecase(sl()));
+  sl.registerSingleton<GetMoreCharactersUseCase>(
+      GetMoreCharactersUseCase(sl()));
+  sl.registerSingleton<FilterMoreCharactersUseCase>(
+      FilterMoreCharactersUseCase(sl()));
+
+  sl.registerSingleton<GetEpisodeUseCase>(GetEpisodeUseCase(sl()));
+  sl.registerSingleton<GetAllEpisodesUseCase>(GetAllEpisodesUseCase(sl()));
+  sl.registerSingleton<FilterEpisodesUseCase>(FilterEpisodesUseCase(sl()));
+  sl.registerSingleton<GetMoreEpisodesUseCase>(GetMoreEpisodesUseCase(sl()));
+  sl.registerSingleton<FilterMoreEpisodesUseCase>(
+      FilterMoreEpisodesUseCase(sl()));
 
   // Blocs
   sl.registerFactory<CharacterBloc>(
       () => CharacterBloc(sl(), sl(), sl(), sl(), sl()));
+
+  sl.registerFactory<EpisodeBloc>(
+      () => EpisodeBloc(sl(), sl(), sl(), sl(), sl()));
 }

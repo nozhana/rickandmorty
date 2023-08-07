@@ -23,10 +23,10 @@ class FilterCharactersUseCase
   }
 }
 
-class FilterMoreCharactersUsecase
+class FilterMoreCharactersUseCase
     implements UseCase<DataState<GetCharactersResponse>, Map<String, dynamic>> {
   final CharacterRepository _characterRepository;
-  FilterMoreCharactersUsecase(this._characterRepository);
+  FilterMoreCharactersUseCase(this._characterRepository);
 
   @override
   Future<DataState<GetCharactersResponse>> call(
@@ -45,10 +45,10 @@ class FilterMoreCharactersUsecase
   }
 }
 
-class GetAllCharactersUsecase
+class GetAllCharactersUseCase
     implements UseCase<DataState<GetCharactersResponse>, void> {
   final CharacterRepository _characterRepository;
-  GetAllCharactersUsecase(this._characterRepository);
+  GetAllCharactersUseCase(this._characterRepository);
 
   @override
   Future<DataState<GetCharactersResponse>> call({void params}) {
@@ -58,10 +58,10 @@ class GetAllCharactersUsecase
   }
 }
 
-class GetMoreCharactersUsecase
+class GetMoreCharactersUseCase
     implements UseCase<DataState<GetCharactersResponse>, int> {
   final CharacterRepository _characterRepository;
-  GetMoreCharactersUsecase(this._characterRepository);
+  GetMoreCharactersUseCase(this._characterRepository);
 
   @override
   Future<DataState<GetCharactersResponse>> call({int? params}) {

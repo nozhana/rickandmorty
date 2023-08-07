@@ -9,9 +9,9 @@ import 'package:rickandmorty/core/extensions/string_extension.dart';
 import 'package:rickandmorty/core/resources/navigation/widgets/base_navigatable_scaffold.dart';
 import 'package:rickandmorty/core/resources/views/error/error_view.dart';
 import 'package:rickandmorty/core/resources/views/loading/loading_view.dart';
+import 'package:rickandmorty/core/resources/widgets/snackbars/snackbars.dart';
 import 'package:rickandmorty/features/character/domain/entities/types.dart';
 import 'package:rickandmorty/features/character/presentation/bloc/character_bloc.dart';
-import 'package:rickandmorty/features/character/presentation/pages/character_list_view.dart';
 
 class CharacterDetailsContentView extends StatelessWidget {
   const CharacterDetailsContentView({
@@ -204,8 +204,8 @@ class CharacterDetailsContentView extends StatelessWidget {
           dismissDirection: DismissDirection.down,
           elevation: 4.0,
           padding: const EdgeInsets.all(8.0),
-          content: Row(
-            children: const <Widget>[
+          content: const Row(
+            children: <Widget>[
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
                 child: Icon(Icons.error_outline, color: Colors.redAccent),

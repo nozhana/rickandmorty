@@ -1,9 +1,9 @@
-part of '../pages/character_list_view.dart';
+part of '../pages/episode_list_view.dart';
 
 SnackBar timeoutErrorSnackbar(
-    {required CharacterBloc characterBloc,
+    {required EpisodeBloc episodeBloc,
     required int page,
-    CharacterEntity? filterCharacterEntity}) {
+    EpisodeEntity? filterEpisodeEntity}) {
   return SnackBar(
     behavior: SnackBarBehavior.floating,
     dismissDirection: DismissDirection.down,
@@ -23,12 +23,12 @@ SnackBar timeoutErrorSnackbar(
       label: "Retry",
       textColor: theme().primaryColorLight,
       onPressed: () {
-        if (!characterBloc.isClosed) {
-          if (filterCharacterEntity?.hasValue ?? false) {
-            characterBloc.add(FilterMoreCharacters(
-                characterEntity: filterCharacterEntity!, page: page + 1));
+        if (!episodeBloc.isClosed) {
+          if (filterEpisodeEntity?.hasValue ?? false) {
+            episodeBloc.add(FilterMoreEpisodes(
+                episodeEntity: filterEpisodeEntity!, page: page + 1));
           } else {
-            characterBloc.add(GetMoreCharacters(page: page + 1));
+            episodeBloc.add(GetMoreEpisodes(page: page + 1));
           }
         }
       },
@@ -38,9 +38,9 @@ SnackBar timeoutErrorSnackbar(
 
 SnackBar nonFatalErrorSnackbar(
     {required DioError error,
-    required CharacterBloc characterBloc,
+    required EpisodeBloc episodeBloc,
     required int page,
-    CharacterEntity? filterCharacterEntity}) {
+    EpisodeEntity? filterEpisodeEntity}) {
   return SnackBar(
     behavior: SnackBarBehavior.floating,
     dismissDirection: DismissDirection.down,
@@ -71,11 +71,11 @@ SnackBar nonFatalErrorSnackbar(
       label: "Retry",
       textColor: theme().primaryColorLight,
       onPressed: () {
-        if (filterCharacterEntity?.hasValue ?? false) {
-          characterBloc.add(FilterMoreCharacters(
-              characterEntity: filterCharacterEntity!, page: page + 1));
+        if (filterEpisodeEntity?.hasValue ?? false) {
+          episodeBloc.add(FilterMoreEpisodes(
+              episodeEntity: filterEpisodeEntity!, page: page + 1));
         } else {
-          characterBloc.add(GetMoreCharacters(page: page + 1));
+          episodeBloc.add(GetMoreEpisodes(page: page + 1));
         }
       },
     ),

@@ -13,17 +13,17 @@ part 'character_state.dart';
 
 class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
   final GetCharacterUseCase _getCharacterUseCase;
-  final GetAllCharactersUsecase _getAllCharactersUsecase;
-  final GetMoreCharactersUsecase _getMoreCharactersUsecase;
+  final GetAllCharactersUseCase _getAllCharactersUseCase;
+  final GetMoreCharactersUseCase _getMoreCharactersUseCase;
   final FilterCharactersUseCase _filterCharactersUseCase;
-  final FilterMoreCharactersUsecase _filterMoreCharactersUsecase;
+  final FilterMoreCharactersUseCase _filterMoreCharactersUseCase;
 
   CharacterBloc(
       this._getCharacterUseCase,
-      this._getAllCharactersUsecase,
+      this._getAllCharactersUseCase,
       this._filterCharactersUseCase,
-      this._getMoreCharactersUsecase,
-      this._filterMoreCharactersUsecase)
+      this._getMoreCharactersUseCase,
+      this._filterMoreCharactersUseCase)
       : super(const CharacterInitial()) {
     on<GetCharacter>(onGetCharacter);
     on<GetAllCharacters>(onGetAllCharacters);
@@ -59,7 +59,7 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
 
     final DataState dataState;
     try {
-      dataState = await _getAllCharactersUsecase();
+      dataState = await _getAllCharactersUseCase();
     } on TimeoutException catch (e) {
       emit(CharacterTimeoutError(errorMessage: e.message));
       return;
@@ -81,7 +81,7 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
     final DataState dataState;
 
     try {
-      dataState = await _getMoreCharactersUsecase(params: event.page);
+      dataState = await _getMoreCharactersUseCase(params: event.page);
     } on TimeoutException catch (e) {
       emit(CharacterTimeoutError(errorMessage: e.message));
       return;
@@ -128,7 +128,7 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
 
     final DataState dataState;
     try {
-      dataState = await _filterMoreCharactersUsecase(params: {
+      dataState = await _filterMoreCharactersUseCase(params: {
         'page': event.page,
         'data': event.characterEntity,
       });

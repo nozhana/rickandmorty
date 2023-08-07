@@ -17,7 +17,7 @@ class ErrorView extends StatelessWidget {
           margin: const EdgeInsets.all(16.0),
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-              color: theme().errorColor,
+              color: theme().colorScheme.error,
               borderRadius: BorderRadius.circular(8.0),
               border: Border.all(color: Colors.redAccent, width: 8),
               boxShadow: <BoxShadow>[

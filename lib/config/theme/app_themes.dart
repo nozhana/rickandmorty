@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 ThemeData theme() {
   return ThemeData(
     useMaterial3: true,
-    backgroundColor: Colors.white,
-    primarySwatch: Colors.amber,
     cardColor: Colors.white,
     scaffoldBackgroundColor: Colors.white,
+    primarySwatch: Colors.amber,
     fontFamily: "GigaSans",
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
     appBarTheme: _appBarTheme(),
+    colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber)
+        .copyWith(background: Colors.white),
   );
 }
 

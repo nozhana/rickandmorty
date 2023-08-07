@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rickandmorty/config/theme/app_themes.dart';
-import 'package:rickandmorty/core/extensions/string_extension.dart';
 import 'package:rickandmorty/features/character/presentation/bloc/character_bloc.dart';
 import 'package:rickandmorty/features/character/presentation/widgets/character_details_content_view.dart';
 import 'package:rickandmorty/injection_container.dart';
