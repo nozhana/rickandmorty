@@ -99,7 +99,7 @@ abstract class TextInputSheet extends StatelessWidget {
               ),
               TextField(
                 controller: _textEditingController,
-                autofocus: true,
+                autofocus: false,
                 decoration: InputDecoration(
                     counterStyle: const TextStyle(height: 4.0),
                     contentPadding: const EdgeInsets.symmetric(
