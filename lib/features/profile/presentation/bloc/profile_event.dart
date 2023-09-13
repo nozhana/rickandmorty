@@ -22,3 +22,11 @@ class ProfileAuthStateDidChange extends ProfileEvent {
 class ProfileDeleteAccountRequested extends ProfileEvent {
   const ProfileDeleteAccountRequested();
 }
+
+class ProfileChangeProfileImageRequested extends ProfileEvent {
+  final XFile pickedImageXFile;
+  const ProfileChangeProfileImageRequested(this.pickedImageXFile);
+
+  @override
+  List<Object> get props => [pickedImageXFile.name];
+}

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:rickandmorty/core/resources/data/data_state.dart';
 import 'package:rickandmorty/features/UAA/authentication/domain/entities/user_entity.dart';
 import 'package:rickandmorty/features/UAA/authentication/domain/repositories/authentication_repository.dart';
@@ -18,13 +19,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ProfileGetLevelUsecase _getLevelUsecase;
   final ProfileDeleteUserUsecase _deleteUserUsecase;
   final ProfileLogoutUsecase _logoutUsecase;
+  final ProfileChangeProfileImageUsecase _changeProfileImageUsecase;
 
-  ProfileBloc(this._authenticationRepository, this._getLevelUsecase,
-      this._deleteUserUsecase, this._logoutUsecase)
+  ProfileBloc(
+      this._authenticationRepository,
+      this._getLevelUsecase,
+      this._deleteUserUsecase,
+      this._logoutUsecase,
+      this._changeProfileImageUsecase)
       : super(const ProfileInitial()) {
     on<ProfileAuthStateDidChange>(_onAuthStateDidChange);
     on<ProfileLogoutButtonTapped>(_onLogoutButtonTapped);
     on<ProfileDeleteAccountRequested>(_onDeleteAccountRequested);
+    on<ProfileChangeProfileImageRequested>(_onChangeProfileImageRequested);
 
     _userSubscription =
         _authenticationRepository.userStream.listen((userEntity) {
@@ -51,9 +58,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         if (dataState is DataSuccess && !(dataState.data?.isGuest ?? true)) {
           emit(ProfileLoaded(dataState.data!));
         } else {
-          emit(ProfileFailed(state.userProfileLevel,
-              reason: ProfileFailedReason.other,
-              errorMessage: dataState.errorMessage));
+          if (_authenticationRepository.currentUser.isNotEmpty) {
+            emit(ProfileLoaded(UserProfileLevel.loggedIn(
+                _authenticationRepository.currentUser)));
+          } else {
+            emit(const ProfileLoaded(UserProfileLevel.guest()));
+          }
         }
         break;
       case AuthenticationStatus.unknown:
@@ -80,6 +90,26 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(ProfileFailed(state.userProfileLevel,
           reason: ProfileFailedReason.other,
           errorMessage: dataState.errorMessage));
+    }
+  }
+
+  FutureOr<void> _onChangeProfileImageRequested(
+      ProfileChangeProfileImageRequested event,
+      Emitter<ProfileState> emit) async {
+    emit(ProfileLoading(state.userProfileLevel));
+
+    final dataState =
+        await _changeProfileImageUsecase(params: event.pickedImageXFile);
+
+    final levelDataState = await _getLevelUsecase();
+    if (dataState is DataSuccess) {
+      emit(ProfileLoaded(levelDataState is DataSuccess
+          ? levelDataState.data ?? state.userProfileLevel
+          : state.userProfileLevel));
+    } else {
+      emit(ProfileFailed(levelDataState is DataSuccess
+          ? levelDataState.data ?? state.userProfileLevel
+          : state.userProfileLevel));
     }
   }
 }

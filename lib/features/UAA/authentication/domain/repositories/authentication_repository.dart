@@ -7,7 +7,7 @@ abstract class AuthenticationRepository {
   Future<UserCredential> login(
       {required String email, required String password});
   Future<UserCredential> signup(
-      {required String email, required String password});
+      {required String email, required String password, String? fullName});
   Future<void> logout();
   Future<void> delete();
 }

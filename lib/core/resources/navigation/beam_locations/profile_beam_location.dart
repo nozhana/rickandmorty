@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:beamer/beamer.dart';
 import 'package:rickandmorty/features/UAA/authentication/domain/repositories/authentication_repository.dart';
-import 'package:rickandmorty/features/UAA/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:rickandmorty/features/UAA/login/presentation/pages/login_view.dart';
 import 'package:rickandmorty/features/UAA/signup/presentation/pages/signup_view.dart';
 import 'package:rickandmorty/features/profile/presentation/pages/profile_view.dart';

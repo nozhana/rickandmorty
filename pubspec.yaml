@@ -30,6 +30,9 @@ dependencies:
   velocity_x: ^4.1.1
   google_fonts: ^5.1.0
   cloud_firestore: ^4.9.1
+  firebase_storage: ^11.2.6
+  image_picker: ^1.0.4
+  image: ^4.0.17
 
 dev_dependencies:
   flutter_test:

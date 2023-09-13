@@ -93,7 +93,7 @@ class _EpisodeListContentViewState extends State<EpisodeListContentView> {
                       ),
                       // Trailing
                       Icon(Icons.arrow_forward_ios,
-                          color: Theme.of(context).primaryColorDark),
+                          color: Theme.of(context).primaryColor),
                     ],
                   ),
                 ),

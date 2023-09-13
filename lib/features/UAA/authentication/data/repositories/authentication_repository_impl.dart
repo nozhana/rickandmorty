@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rickandmorty/features/UAA/authentication/data/models/user_model.dart';
 import 'package:rickandmorty/features/UAA/authentication/domain/entities/user_entity.dart';
 import 'package:rickandmorty/features/UAA/authentication/domain/repositories/authentication_repository.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
   AuthenticationRepositoryImpl({FirebaseAuth? firebaseAuth})
@@ -29,10 +30,16 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
   @override
   Future<UserCredential> signup(
-      {required String email, required String password}) async {
-    return _firebaseAuth
+      {required String email,
+      required String password,
+      String? fullName}) async {
+    final userCredential = await _firebaseAuth
         .createUserWithEmailAndPassword(email: email, password: password)
         .timeout(const Duration(seconds: 10));
+    if (fullName.isNotEmptyAndNotNull) {
+      await userCredential.user?.updateDisplayName(fullName);
+    }
+    return userCredential;
   }
 
   @override

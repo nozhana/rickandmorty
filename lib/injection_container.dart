@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rickandmorty/core/constants/constants.dart' as constants;
@@ -21,6 +22,7 @@ import 'package:rickandmorty/features/episode/data/repositories/episode_reposito
 import 'package:rickandmorty/features/episode/domain/repositories/episode_repository.dart';
 import 'package:rickandmorty/features/episode/domain/usecases/episode_usecases.dart';
 import 'package:rickandmorty/features/episode/presentation/bloc/episode_bloc.dart';
+import 'package:rickandmorty/features/profile/data/datasources/user_profile_image_bucket.dart';
 import 'package:rickandmorty/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:rickandmorty/features/profile/domain/repositories/profile_repository.dart';
 import 'package:rickandmorty/features/profile/domain/usecases/profile_usecases.dart';
@@ -50,12 +52,17 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<CharacterApiService>(CharacterApiService(sl()));
   sl.registerSingleton<EpisodeApiService>(EpisodeApiService(sl()));
 
+  // Buckets
+  sl.registerSingleton<UserProfileImageBucket>(UserProfileImageBucket(
+      FirebaseStorage.instance.ref().child("user_profile_images")));
+
   // Repositories
   sl.registerSingleton<CharacterRepository>(CharacterRepositoryImpl(sl()));
   sl.registerSingleton<EpisodeRepository>(EpisodeRepositoryImpl(sl()));
   sl.registerSingleton<AuthenticationRepository>(
       AuthenticationRepositoryImpl(firebaseAuth: FirebaseAuth.instance));
-  sl.registerSingleton<ProfileRepository>(ProfileRepositoryImpl(sl(), sl()));
+  sl.registerSingleton<ProfileRepository>(
+      ProfileRepositoryImpl(sl(), sl(), sl()));
 
   // UseCases
   sl.registerSingleton<GetCharacterUseCase>(GetCharacterUseCase(sl()));
@@ -79,6 +86,8 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<ProfileLogoutUsecase>(ProfileLogoutUsecase(sl()));
   sl.registerSingleton<ProfileDeleteUserUsecase>(
       ProfileDeleteUserUsecase(sl(), sl()));
+  sl.registerSingleton<ProfileChangeProfileImageUsecase>(
+      ProfileChangeProfileImageUsecase(sl()));
 
   // Blocs
   sl.registerFactory<CharacterBloc>(
@@ -86,7 +95,8 @@ Future<void> initializeDependencies() async {
   sl.registerFactory<EpisodeBloc>(
       () => EpisodeBloc(sl(), sl(), sl(), sl(), sl()));
   sl.registerFactory<AuthenticationBloc>(() => AuthenticationBloc(sl()));
-  sl.registerFactory<ProfileBloc>(() => ProfileBloc(sl(), sl(), sl(), sl()));
+  sl.registerFactory<ProfileBloc>(
+      () => ProfileBloc(sl(), sl(), sl(), sl(), sl()));
 
   // Cubits
   sl.registerFactory<SignupCubit>(() => SignupCubit(sl(), sl()));

@@ -19,6 +19,16 @@ class FirestoreDatabase {
     return documentReference.id;
   }
 
+  Future<String?> getDocumentIdByField(
+      {required String collectionPath,
+      required String field,
+      required Object match}) async {
+    Query<Map<String, dynamic>> query;
+    query = _db.collection(collectionPath).where(field, isEqualTo: match);
+    final snapshot = await query.get();
+    return snapshot.docs.firstOrNull?.id;
+  }
+
   Future<void> setDocument(
       {required String collectionPath,
       required String documentId,
@@ -61,7 +71,7 @@ class FirestoreDatabase {
   Future<Map<String, dynamic>?> getDocumentByField(
       {required String collectionPath,
       required String field,
-      required String match}) async {
+      required Object match}) async {
     Query<Map<String, dynamic>> query;
     query = _db.collection(collectionPath).where(field, isEqualTo: match);
     final snapshot = await query.get();
@@ -71,7 +81,7 @@ class FirestoreDatabase {
   Future<T?> getObjectByField<T>(
       {required String collectionPath,
       required String field,
-      required String match,
+      required Object match,
       required ObjectDecoder<T> objectDecoder}) async {
     final document = await getDocumentByField(
         collectionPath: collectionPath, field: field, match: match);
@@ -89,7 +99,7 @@ class FirestoreDatabase {
   Future<void> deleteFirstDocumentByField(
       {required String collectionPath,
       required String field,
-      required String match}) async {
+      required Object match}) async {
     Query<Map<String, dynamic>> query;
     query =
         _db.collection(collectionPath).where(field, isEqualTo: match).limit(1);

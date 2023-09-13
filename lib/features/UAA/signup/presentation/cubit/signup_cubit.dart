@@ -6,7 +6,6 @@ import 'package:rickandmorty/core/resources/data/data_state.dart';
 import 'package:rickandmorty/features/UAA/authentication/domain/entities/user_entity.dart';
 import 'package:rickandmorty/features/UAA/authentication/domain/repositories/authentication_repository.dart';
 import 'package:rickandmorty/features/profile/domain/repositories/profile_repository.dart';
-import 'package:velocity_x/velocity_x.dart';
 part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
@@ -25,19 +24,17 @@ class SignupCubit extends Cubit<SignupState> {
 
     try {
       final userCredential = await _authenticationRepository.signup(
-          email: email, password: password);
+          email: email, password: password, fullName: fullName);
       if (userCredential.user == null) return;
-      if (fullName.isNotEmptyAndNotNull) {
-        final dataState = await _profileRepository.addUser(UserEntity(
-            id: userCredential.user!.uid, email: email, fullName: fullName));
+      final dataState = await _profileRepository.addUser(UserEntity(
+          id: userCredential.user!.uid, email: email, fullName: fullName));
 
-        if (dataState is DataSuccess) {
-          emit(const SignupDone());
-        } else {
-          emit(SignupFailed(FirebaseAuthException(
-              code: "storing-to-db-failed",
-              message: "Failed to store user to database.")));
-        }
+      if (dataState is DataSuccess) {
+        emit(const SignupDone());
+      } else {
+        emit(SignupFailed(FirebaseAuthException(
+            code: "storing-to-db-failed",
+            message: "Failed to store user to database.")));
       }
     } on FirebaseAuthException catch (e) {
       emit(SignupFailed(e));

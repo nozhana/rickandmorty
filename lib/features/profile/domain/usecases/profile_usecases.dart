@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:rickandmorty/core/resources/data/data_state.dart';
 import 'package:rickandmorty/core/usecase/usecase.dart';
 import 'package:rickandmorty/features/UAA/authentication/domain/entities/user_entity.dart';
@@ -57,7 +58,7 @@ final class ProfileDeleteUserUsecase implements UseCase<DataState<void>, void> {
     if (dataState is DataSuccess) {
       try {
         await _authenticationRepository.delete();
-        return const DataSuccess(null);
+        return const DataSuccess();
       } on FirebaseAuthException catch (e) {
         return DataFailed.withMessage(e.message ?? e.code);
       } on TimeoutException {
@@ -78,5 +79,23 @@ final class ProfileLogoutUsecase implements UseCase<void, void> {
     try {
       await _authenticationRepository.logout();
     } catch (_) {}
+  }
+}
+
+final class ProfileChangeProfileImageUsecase
+    implements UseCase<DataState<void>, XFile> {
+  final ProfileRepository _profileRepository;
+  const ProfileChangeProfileImageUsecase(this._profileRepository);
+
+  @override
+  Future<DataState<void>> call({XFile? params}) async {
+    DataState dataState = await _profileRepository.uploadImageToBucket(params!);
+
+    if (dataState is DataFailed) return dataState;
+
+    dataState = await _profileRepository.updateUserWith(
+        profileImageUrl: dataState.data);
+
+    return dataState;
   }
 }
