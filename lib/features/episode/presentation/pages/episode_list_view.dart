@@ -5,11 +5,11 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:rickandmorty/config/theme/app_themes.dart';
 import 'package:rickandmorty/core/constants/constants.dart';
 import 'package:rickandmorty/core/resources/views/error/empty_view.dart';
 import 'package:rickandmorty/core/resources/views/error/error_view.dart';
 import 'package:rickandmorty/core/resources/views/loading/loading_view.dart';
+import 'package:rickandmorty/core/resources/widgets/appbar/base_app_bar.dart';
 import 'package:rickandmorty/core/resources/widgets/snackbars/snackbars.dart';
 import 'package:rickandmorty/features/episode/domain/entities/episode_entity.dart';
 import 'package:rickandmorty/features/episode/presentation/bloc/episode_bloc.dart';
@@ -52,7 +52,7 @@ class _EpisodeListViewState extends State<EpisodeListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _appBar(),
+        appBar: _buildAppBar(),
         floatingActionButton: _buildSpeedDial(),
         body: NotificationListener<UserScrollNotification>(
           onNotification: (notification) {
@@ -119,7 +119,7 @@ class _EpisodeListViewState extends State<EpisodeListView> {
         HapticFeedback.vibrate();
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
-          ..showSnackBar(nonFatalErrorSnackbar(
+          ..showSnackBar(nonFatalErrorSnackbar(context,
               error: state.error!, episodeBloc: _episodeBloc, page: _page));
       });
       return EpisodeListContentView(
@@ -130,8 +130,8 @@ class _EpisodeListViewState extends State<EpisodeListView> {
         HapticFeedback.vibrate();
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
-          ..showSnackBar(
-              timeoutErrorSnackbar(episodeBloc: _episodeBloc, page: _page));
+          ..showSnackBar(timeoutErrorSnackbar(context,
+              episodeBloc: _episodeBloc, page: _page));
       });
       return EpisodeListContentView(
           episodeEntities: _episodeEntities.toList(),
@@ -141,11 +141,10 @@ class _EpisodeListViewState extends State<EpisodeListView> {
     return const ErrorView(errorMessage: "Unexpected state");
   }
 
-  AppBar _appBar() {
-    return AppBar(
-      title: const Text(
+  PreferredSizeWidget _buildAppBar() {
+    return const BaseAppBar(
+      title: Text(
         "Episodes",
-        style: TextStyle(color: Colors.black),
       ),
     );
   }
@@ -173,19 +172,23 @@ class _EpisodeListViewState extends State<EpisodeListView> {
   Widget _buildSpeedDial() => OrientationBuilder(
       builder: (context, orientation) => SpeedDial(
             visible: _showFab,
-            backgroundColor: theme().primaryColor,
+            backgroundColor:
+                Theme.of(context).floatingActionButtonTheme.backgroundColor,
             animationCurve: Curves.elasticInOut,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.0)),
-            foregroundColor: Colors.white,
-            activeBackgroundColor: theme().primaryColorDark,
+            elevation: Theme.of(context).floatingActionButtonTheme.elevation!,
+            foregroundColor:
+                Theme.of(context).floatingActionButtonTheme.foregroundColor,
+            activeBackgroundColor:
+                Theme.of(context).floatingActionButtonTheme.focusColor,
             animatedIcon: AnimatedIcons.search_ellipsis,
             label: const Text("Filters",
                 style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600)),
             direction: (orientation == Orientation.landscape)
                 ? SpeedDialDirection.left
                 : SpeedDialDirection.up,
-            spaceBetweenChildren: 16.0,
+            spaceBetweenChildren: 8.0,
             onOpen: () => HapticFeedback.heavyImpact(),
             onClose: () => HapticFeedback.lightImpact(),
             children: [
@@ -198,11 +201,13 @@ class _EpisodeListViewState extends State<EpisodeListView> {
       {required String label, required IconData iconData, Function()? onTap}) {
     return SpeedDialChild(
       label: label,
+      labelBackgroundColor: Theme.of(context).colorScheme.secondaryContainer,
       labelStyle: TextStyle(
-          color: theme().primaryColorDark,
+          color: Theme.of(context).colorScheme.onSecondary,
           fontWeight: FontWeight.w600,
           fontSize: 14.0),
-      child: Icon(iconData, color: theme().primaryColorDark),
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      child: Icon(iconData, color: Theme.of(context).colorScheme.onSecondary),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(16.0))),
       onTap: () {
@@ -212,7 +217,7 @@ class _EpisodeListViewState extends State<EpisodeListView> {
         } else {
           ScaffoldMessenger.of(context)
             ..clearSnackBars()
-            ..showSnackBar(comingSoonSnackbar());
+            ..showSnackBar(comingSoonSnackbar(context));
         }
       },
     );

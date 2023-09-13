@@ -51,7 +51,7 @@ class GetAllCharactersUseCase
   GetAllCharactersUseCase(this._characterRepository);
 
   @override
-  Future<DataState<GetCharactersResponse>> call({void params}) {
+  Future<DataState<GetCharactersResponse>> call({void params}) async {
     return _characterRepository
         .getAllCharacters()
         .timeout(const Duration(seconds: 5));
@@ -64,10 +64,9 @@ class GetMoreCharactersUseCase
   GetMoreCharactersUseCase(this._characterRepository);
 
   @override
-  Future<DataState<GetCharactersResponse>> call({int? params}) {
+  Future<DataState<GetCharactersResponse>> call({int? params}) async {
     if (params == null) {
-      return Future.value(
-          DataFailed(DioError(requestOptions: RequestOptions(path: ''))));
+      return DataFailed(DioError(requestOptions: RequestOptions(path: '')));
     }
     return _characterRepository
         .getMoreCharacters(nextPage: params)
@@ -80,7 +79,7 @@ class GetCharacterUseCase implements UseCase<DataState<CharacterEntity>, int> {
   GetCharacterUseCase(this._characterRepository);
 
   @override
-  Future<DataState<CharacterEntity>> call({int? params}) {
+  Future<DataState<CharacterEntity>> call({int? params}) async {
     return _characterRepository
         .getCharacter(params!)
         .timeout(const Duration(seconds: 5));

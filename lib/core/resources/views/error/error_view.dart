@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:rickandmorty/config/theme/app_themes.dart';
 
 class ErrorView extends StatelessWidget {
   final DioError? error;
@@ -17,12 +16,12 @@ class ErrorView extends StatelessWidget {
           margin: const EdgeInsets.all(16.0),
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-              color: theme().colorScheme.error,
+              color: Theme.of(context).colorScheme.error,
               borderRadius: BorderRadius.circular(8.0),
               border: Border.all(color: Colors.redAccent, width: 8),
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                    color: theme().shadowColor.withOpacity(0.1),
+                    color: Theme.of(context).shadowColor.withOpacity(0.1),
                     blurRadius: 24,
                     offset: const Offset(0, 12))
               ]),

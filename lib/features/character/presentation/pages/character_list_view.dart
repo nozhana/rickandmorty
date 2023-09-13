@@ -7,11 +7,11 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:rickandmorty/config/theme/app_themes.dart';
 import 'package:rickandmorty/core/constants/constants.dart';
 import 'package:rickandmorty/core/resources/views/error/empty_view.dart';
 import 'package:rickandmorty/core/resources/views/error/error_view.dart';
 import 'package:rickandmorty/core/resources/views/loading/loading_view.dart';
+import 'package:rickandmorty/core/resources/widgets/appbar/base_app_bar.dart';
 import 'package:rickandmorty/core/resources/widgets/snackbars/snackbars.dart';
 import 'package:rickandmorty/features/character/domain/entities/character_entity.dart';
 import 'package:rickandmorty/features/character/presentation/bloc/character_bloc.dart';
@@ -75,7 +75,7 @@ class _CharacterListViewState extends State<CharacterListView> {
           return true;
         },
         child: Scaffold(
-          appBar: _appBar(),
+          appBar: _buildAppBar(),
           body: _buildBody(),
           floatingActionButton: _filterFab(),
         ),
@@ -83,11 +83,10 @@ class _CharacterListViewState extends State<CharacterListView> {
     );
   }
 
-  AppBar _appBar() {
-    return AppBar(
-      title: const Text(
+  PreferredSizeWidget _buildAppBar() {
+    return const BaseAppBar(
+      title: Text(
         "Characters",
-        style: TextStyle(color: Colors.black),
       ),
     );
   }
@@ -131,7 +130,7 @@ class _CharacterListViewState extends State<CharacterListView> {
             HapticFeedback.vibrate();
             ScaffoldMessenger.of(context)
               ..clearSnackBars()
-              ..showSnackBar(nonFatalErrorSnackbar(
+              ..showSnackBar(nonFatalErrorSnackbar(context,
                   error: state.error!,
                   characterBloc: _characterBloc,
                   page: _page,
@@ -150,7 +149,7 @@ class _CharacterListViewState extends State<CharacterListView> {
             HapticFeedback.vibrate();
             ScaffoldMessenger.of(context)
               ..clearSnackBars()
-              ..showSnackBar(timeoutErrorSnackbar(
+              ..showSnackBar(timeoutErrorSnackbar(context,
                   characterBloc: _characterBloc,
                   page: _page,
                   filterCharacterEntity: _filterCharacterEntity));
@@ -177,41 +176,50 @@ class _CharacterListViewState extends State<CharacterListView> {
               : SpeedDialDirection.left,
           animationCurve: Curves.elasticInOut,
           animatedIcon: AnimatedIcons.search_ellipsis,
-          animatedIconTheme: const IconThemeData(color: Colors.white),
-          backgroundColor: theme().primaryColor,
-          activeBackgroundColor: theme().primaryColorDark,
+          animatedIconTheme: IconThemeData(
+              color:
+                  Theme.of(context).floatingActionButtonTheme.foregroundColor),
+          backgroundColor:
+              Theme.of(context).floatingActionButtonTheme.backgroundColor,
+          activeBackgroundColor:
+              Theme.of(context).floatingActionButtonTheme.focusColor,
+          foregroundColor:
+              Theme.of(context).floatingActionButtonTheme.foregroundColor,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+          elevation: Theme.of(context).floatingActionButtonTheme.elevation!,
           label: const Text(
             "Filters",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 17.0,
-                fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600),
           ),
-          spaceBetweenChildren: 16.0,
+          spaceBetweenChildren: 8.0,
           onOpen: () => HapticFeedback.heavyImpact(),
           onClose: () => HapticFeedback.lightImpact(),
           children: <SpeedDialChild>[
             _speedDialChild(
                 label: "Name",
                 iconData: Icons.person,
+                hasValue: _filterCharacterEntity.name?.isNotEmpty ?? false,
                 onTap: _getNameFromSheet),
             _speedDialChild(
                 label: "Status",
                 iconData: Icons.thumbs_up_down,
+                hasValue: _filterCharacterEntity.status != null,
                 onTap: _getStatusFromSheet),
             _speedDialChild(
                 label: "Species",
                 iconData: Icons.account_tree,
+                hasValue: _filterCharacterEntity.species?.isNotEmpty ?? false,
                 onTap: _getSpeciesFromSheet),
             _speedDialChild(
                 label: "Type",
                 iconData: Icons.type_specimen,
+                hasValue: _filterCharacterEntity.type?.isNotEmpty ?? false,
                 onTap: _getTypeFromSheet),
             _speedDialChild(
                 label: "Gender",
                 iconData: Icons.transgender,
+                hasValue: _filterCharacterEntity.gender != null,
                 onTap: _getGenderFromSheet),
           ],
         );
@@ -220,14 +228,28 @@ class _CharacterListViewState extends State<CharacterListView> {
   }
 
   SpeedDialChild _speedDialChild(
-      {required String label, required IconData iconData, Function()? onTap}) {
+      {required String label,
+      required IconData iconData,
+      required bool hasValue,
+      Function()? onTap}) {
     return SpeedDialChild(
       label: label,
+      labelBackgroundColor: hasValue
+          ? Theme.of(context).primaryColor
+          : Theme.of(context).colorScheme.secondaryContainer,
       labelStyle: TextStyle(
-          color: theme().primaryColorDark,
+          color: hasValue
+              ? Theme.of(context).colorScheme.onTertiaryContainer
+              : Theme.of(context).colorScheme.onSecondaryContainer,
           fontWeight: FontWeight.w600,
           fontSize: 14.0),
-      child: Icon(iconData, color: theme().primaryColorDark),
+      backgroundColor: hasValue
+          ? Theme.of(context).primaryColor
+          : Theme.of(context).colorScheme.secondaryContainer,
+      child: Icon(iconData,
+          color: hasValue
+              ? Theme.of(context).colorScheme.onTertiaryContainer
+              : Theme.of(context).colorScheme.onSecondaryContainer),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(16.0))),
       onTap: () {
@@ -235,7 +257,8 @@ class _CharacterListViewState extends State<CharacterListView> {
         if (onTap != null) {
           onTap();
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(comingSoonSnackbar());
+          ScaffoldMessenger.of(context)
+              .showSnackBar(comingSoonSnackbar(context));
         }
       },
     );

@@ -3,7 +3,7 @@ import 'package:beamer/beamer.dart';
 import 'package:rickandmorty/features/character/presentation/pages/character_details_view.dart';
 import 'package:rickandmorty/features/character/presentation/pages/character_list_view.dart';
 
-class CharactersBeamLocation extends BeamLocation<BeamState> {
+class CharactersBeamLocation extends BeamLocation {
   @override
   List<BeamPage> pagesBuilder(BuildContext context, BeamState state) =>
       <BeamPage>[

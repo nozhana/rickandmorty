@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rickandmorty/config/theme/app_themes.dart';
 
 class LoadingView extends StatelessWidget {
   const LoadingView({Key? key}) : super(key: key);
@@ -13,7 +12,7 @@ class LoadingView extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           CircleAvatar(
-            backgroundColor: theme().primaryColor,
+            backgroundColor: Theme.of(context).primaryColor,
             radius: MediaQuery.of(context).size.shortestSide / 5,
             child: CircleAvatar(
               backgroundImage: const AssetImage("assets/images/loading1.gif"),
@@ -21,10 +20,10 @@ class LoadingView extends StatelessWidget {
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(top: 16.0),
+            padding: EdgeInsets.only(top: 32.0),
             child: Text(
               "Loading...",
-              style: TextStyle(fontWeight: FontWeight.w600),
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 21.0),
             ),
           )
         ],

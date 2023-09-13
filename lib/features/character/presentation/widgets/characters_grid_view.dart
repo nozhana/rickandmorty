@@ -51,7 +51,7 @@ Widget _charactersGridView(
   return Container(
     margin: EdgeInsets.symmetric(horizontal: horizontalContentPadding),
     decoration: BoxDecoration(
-      color: theme().colorScheme.background,
+      color: Theme.of(context).colorScheme.background,
     ),
     child: GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -89,7 +89,7 @@ Widget _charactersGridTile(
         borderRadius: BorderRadius.circular(8.0),
         boxShadow: [
           BoxShadow(
-            color: theme().shadowColor.withOpacity(0.1),
+            color: Theme.of(context).shadowColor.withOpacity(0.1),
             blurRadius: 6.0,
             offset: const Offset(0.0, 2.0),
           ),
@@ -106,9 +106,9 @@ Widget _charactersGridTile(
             ),
             DecoratedBox(
               decoration: BoxDecoration(
-                color: theme().cardColor,
+                color: Theme.of(context).cardColor,
               ),
-              child: _textCaption(
+              child: _textCaption(context,
                   width: MediaQuery.of(context).size.width,
                   caption: characterEntities[index].name!),
             ),
@@ -119,18 +119,22 @@ Widget _charactersGridTile(
   );
 }
 
-SizedBox _textCaption({required double width, required String caption}) {
+SizedBox _textCaption(BuildContext context,
+    {required double width, required String caption}) {
   return SizedBox(
     width: width,
     height: 40,
-    child: Center(
+    child: Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Text(
         caption,
         softWrap: true,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
-            color: theme().primaryColorDark, fontWeight: FontWeight.w600),
+            color: Theme.of(context).colorScheme.onSurface,
+            fontWeight: FontWeight.w300),
         textAlign: TextAlign.center,
       ),
     ),
@@ -146,7 +150,7 @@ CachedNetworkImage _networkImage(String imageUrl, int width) {
     placeholder: (context, url) => Center(
       child: SizedBox.expand(
           child: Container(
-        color: theme().colorScheme.background,
+        color: Theme.of(context).colorScheme.background,
       )),
     ),
   );

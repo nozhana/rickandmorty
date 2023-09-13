@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:beamer/beamer.dart';
 import 'package:rickandmorty/features/location/presentation/pages/location_list_view.dart';
 
-class LocationsBeamLocation extends BeamLocation<BeamState> {
+class LocationsBeamLocation extends BeamLocation {
   @override
   List<BeamPage> pagesBuilder(BuildContext context, BeamState state) =>
       <BeamPage>[

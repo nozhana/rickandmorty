@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rickandmorty/config/theme/app_themes.dart';
 
 abstract class TextInputSheet extends StatelessWidget {
   final String title;
@@ -43,7 +42,7 @@ abstract class TextInputSheet extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius:
                 const BorderRadius.vertical(top: Radius.circular(16.0)),
-            color: Colors.grey.shade200),
+            color: Theme.of(context).cardColor),
         child: Padding(
           padding: EdgeInsets.only(
             left: 16.0,
@@ -66,7 +65,8 @@ abstract class TextInputSheet extends StatelessWidget {
                           Visibility(
                               visible: headerIcon != null,
                               child: Icon(headerIcon,
-                                  color: theme().primaryColorDark)),
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary)),
                           Visibility(
                               visible: headerIcon != null,
                               child: const SizedBox(width: 40)),
@@ -105,7 +105,7 @@ abstract class TextInputSheet extends StatelessWidget {
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 8.0),
                     hintText: hintText,
-                    hintStyle: const TextStyle(color: Colors.grey),
+                    hintStyle: TextStyle(color: Theme.of(context).hintColor),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16.0))),
                 keyboardType: TextInputType.name,

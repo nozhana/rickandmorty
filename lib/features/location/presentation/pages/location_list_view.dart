@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rickandmorty/core/resources/widgets/appbar/base_app_bar.dart';
 
 class LocationListView extends StatelessWidget {
   const LocationListView({Key? key}) : super(key: key);
@@ -6,7 +7,7 @@ class LocationListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appBar(),
+      appBar: _buildAppBar(),
       body: const Center(
         child: Text(
           "✨ Coming soon! ✨",
@@ -16,11 +17,10 @@ class LocationListView extends StatelessWidget {
     );
   }
 
-  AppBar _appBar() {
-    return AppBar(
-      title: const Text(
+  PreferredSizeWidget _buildAppBar() {
+    return const BaseAppBar(
+      title: Text(
         "Locations",
-        style: TextStyle(color: Colors.black),
       ),
     );
   }

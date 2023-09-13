@@ -1,27 +1,30 @@
 part of '../pages/episode_list_view.dart';
 
-SnackBar timeoutErrorSnackbar(
+SnackBar timeoutErrorSnackbar(BuildContext context,
     {required EpisodeBloc episodeBloc,
     required int page,
     EpisodeEntity? filterEpisodeEntity}) {
   return SnackBar(
+    backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
     behavior: SnackBarBehavior.floating,
     dismissDirection: DismissDirection.down,
     elevation: 4.0,
     padding: const EdgeInsets.all(8.0),
-    content: const Row(
+    content: Row(
       children: <Widget>[
-        Padding(
+        const Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.0),
           child: Icon(Icons.error_outline, color: Colors.redAccent),
         ),
         Text("Request timed out.",
-            style: TextStyle(fontWeight: FontWeight.bold)),
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onSecondaryContainer)),
       ],
     ),
     action: SnackBarAction(
       label: "Retry",
-      textColor: theme().primaryColorLight,
+      textColor: Theme.of(context).colorScheme.onSecondaryContainer,
       onPressed: () {
         if (!episodeBloc.isClosed) {
           if (filterEpisodeEntity?.hasValue ?? false) {
@@ -36,12 +39,13 @@ SnackBar timeoutErrorSnackbar(
   );
 }
 
-SnackBar nonFatalErrorSnackbar(
+SnackBar nonFatalErrorSnackbar(BuildContext context,
     {required DioError error,
     required EpisodeBloc episodeBloc,
     required int page,
     EpisodeEntity? filterEpisodeEntity}) {
   return SnackBar(
+    backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
     behavior: SnackBarBehavior.floating,
     dismissDirection: DismissDirection.down,
     elevation: 4.0,
@@ -49,14 +53,17 @@ SnackBar nonFatalErrorSnackbar(
     content: SizedBox.shrink(
       child: Column(
         children: <Widget>[
-          const Row(
+          Row(
             children: <Widget>[
-              Padding(
+              const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
                 child: Icon(Icons.error_outline, color: Colors.redAccent),
               ),
               Text("Failed to fetch data.",
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color:
+                          Theme.of(context).colorScheme.onSecondaryContainer)),
             ],
           ),
           Text(
@@ -69,7 +76,7 @@ SnackBar nonFatalErrorSnackbar(
     ),
     action: SnackBarAction(
       label: "Retry",
-      textColor: theme().primaryColorLight,
+      textColor: Theme.of(context).colorScheme.onSecondaryContainer,
       onPressed: () {
         if (filterEpisodeEntity?.hasValue ?? false) {
           episodeBloc.add(FilterMoreEpisodes(

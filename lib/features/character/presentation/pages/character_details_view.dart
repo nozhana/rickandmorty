@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rickandmorty/config/theme/app_themes.dart';
 import 'package:rickandmorty/features/character/presentation/bloc/character_bloc.dart';
 import 'package:rickandmorty/features/character/presentation/widgets/character_details_content_view.dart';
 import 'package:rickandmorty/injection_container.dart';
@@ -29,13 +28,9 @@ class _CharacterDetailsViewState extends State<CharacterDetailsView> {
 
   AppBar _buildAppBar() {
     return AppBar(
-      flexibleSpace: Container(),
-      iconTheme: theme().iconTheme,
       title: const Text(
         "Character Details",
-        style: TextStyle(color: Colors.black, fontSize: 24.0, height: 0),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
+        style: TextStyle(fontSize: 24.0),
       ),
     );
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:rickandmorty/config/theme/app_themes.dart';
 import 'package:rickandmorty/core/resources/widgets/snackbars/snackbars.dart';
 import 'package:rickandmorty/features/episode/domain/entities/episode_entity.dart';
 
@@ -45,7 +44,7 @@ class _EpisodeListContentViewState extends State<EpisodeListContentView> {
             }
             return Card(
               elevation: 0,
-              color: theme().canvasColor,
+              color: Theme.of(context).canvasColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0)),
               child: InkWell(
@@ -54,9 +53,9 @@ class _EpisodeListContentViewState extends State<EpisodeListContentView> {
                 onTap: () => SchedulerBinding.instance
                     .addPostFrameCallback((_) => ScaffoldMessenger.of(context)
                       ..clearSnackBars()
-                      ..showSnackBar(comingSoonSnackbar())),
+                      ..showSnackBar(comingSoonSnackbar(context))),
                 enableFeedback: true,
-                splashColor: theme().primaryColorLight,
+                splashColor: Theme.of(context).splashColor,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(
@@ -94,7 +93,7 @@ class _EpisodeListContentViewState extends State<EpisodeListContentView> {
                       ),
                       // Trailing
                       Icon(Icons.arrow_forward_ios,
-                          color: theme().primaryColorDark),
+                          color: Theme.of(context).primaryColorDark),
                     ],
                   ),
                 ),
