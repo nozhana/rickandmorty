@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:rickandmorty/core/constants/constants.dart' as constants;
 import 'package:rickandmorty/core/database/app_database.dart';
 import 'package:rickandmorty/core/firestore/firestore_database.dart';
+import 'package:rickandmorty/core/theme/cubit/theme_cubit.dart';
 import 'package:rickandmorty/core/utils/logger.dart';
 import 'package:rickandmorty/features/UAA/authentication/data/repositories/authentication_repository_impl.dart';
 import 'package:rickandmorty/features/UAA/authentication/domain/repositories/authentication_repository.dart';
@@ -101,4 +102,5 @@ Future<void> initializeDependencies() async {
   // Cubits
   sl.registerFactory<SignupCubit>(() => SignupCubit(sl(), sl()));
   sl.registerFactory<LoginCubit>(() => LoginCubit(sl()));
+  sl.registerFactory<ThemeCubit>(() => ThemeCubit());
 }

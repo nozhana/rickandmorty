@@ -1,11 +1,14 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rickandmorty/config/theme/dark_theme.dart';
 import 'package:rickandmorty/core/resources/widgets/banners/custom_banner.dart';
+import 'package:rickandmorty/core/theme/cubit/theme_cubit.dart';
+import 'package:rickandmorty/injection_container.dart';
 
 import 'config/app/app_config.dart';
 import 'config/theme/light_theme.dart';
-import 'core/resources/navigation/widgets/base_navigatable_scaffold.dart';
+import 'core/navigation/widgets/base_navigatable_scaffold.dart';
 
 class RickAndMortyApp extends StatelessWidget {
   RickAndMortyApp({super.key, required this.appConfig}) {
@@ -34,12 +37,20 @@ class RickAndMortyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: "Rick & Morty",
-      theme: lightTheme(),
-      darkTheme: darkTheme(),
-      routerDelegate: beamerRouterDelegate,
-      routeInformationParser: BeamerRouteInformationParser(),
+    return BlocProvider<ThemeCubit>(
+      create: (context) => sl(),
+      child: BlocBuilder<ThemeCubit, ThemeState>(
+        builder: (context, state) {
+          return MaterialApp.router(
+            title: "Rick & Morty",
+            theme: lightTheme(),
+            darkTheme: darkTheme(),
+            themeMode: state.themeMode,
+            routerDelegate: beamerRouterDelegate,
+            routeInformationParser: BeamerRouteInformationParser(),
+          );
+        },
+      ),
     );
   }
 }

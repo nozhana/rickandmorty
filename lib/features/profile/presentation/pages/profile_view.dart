@@ -7,9 +7,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rickandmorty/core/exceptions/io_exceptions.dart';
 import 'package:rickandmorty/core/extensions/string_extension.dart';
-import 'package:rickandmorty/core/resources/navigation/widgets/base_navigatable_scaffold.dart';
+import 'package:rickandmorty/core/navigation/widgets/base_navigatable_scaffold.dart';
 import 'package:rickandmorty/core/resources/views/error/error_view.dart';
 import 'package:rickandmorty/core/resources/widgets/appbar/base_app_bar.dart';
+import 'package:rickandmorty/core/resources/widgets/switches/light_switch.dart';
 import 'package:rickandmorty/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:rickandmorty/injection_container.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -52,6 +53,11 @@ class _ProfileViewState extends State<ProfileView> {
           }
         },
         child: Scaffold(
+          floatingActionButton:
+              context.screenWidth <= BaseNavigatableScaffold.breakingPoint
+                  ? FloatingActionButton(
+                      onPressed: () {}, child: const LightSwitch())
+                  : null,
           appBar: _buildAppBar(),
           body: BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) =>
@@ -104,7 +110,8 @@ class _ProfileViewState extends State<ProfileView> {
   Widget _buildProfileView(BuildContext context, ProfileState state) => [
         [
           _buildNameTag(state, context,
-              crossAxisAlignment: CrossAxisAlignment.start),
+                  crossAxisAlignment: CrossAxisAlignment.start)
+              .expand(),
           _buildAvatar(context, state, popUpOffset: const Offset(-32, 32)),
         ].hStack(alignment: MainAxisAlignment.spaceBetween),
         64.heightBox,
@@ -122,7 +129,13 @@ class _ProfileViewState extends State<ProfileView> {
   Widget _buildNameTag(ProfileState state, BuildContext context,
       {CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center}) {
     return [
-      (state.currentUser.fullName ?? "Anonymous").titleCased.text.xl3.make(),
+      (state.currentUser.fullName ?? "Anonymous")
+          .sentenceCased
+          .text
+          .maxLines(3)
+          .overflow(TextOverflow.fade)
+          .xl3
+          .make(),
       (state.currentUser.email ?? "*****")
           .text
           .lg

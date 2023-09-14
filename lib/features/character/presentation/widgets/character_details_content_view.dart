@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rickandmorty/core/constants/constants.dart';
 import 'package:rickandmorty/core/extensions/string_extension.dart';
-import 'package:rickandmorty/core/resources/navigation/widgets/base_navigatable_scaffold.dart';
+import 'package:rickandmorty/core/navigation/widgets/base_navigatable_scaffold.dart';
 import 'package:rickandmorty/core/resources/views/error/error_view.dart';
 import 'package:rickandmorty/core/resources/views/loading/loading_view.dart';
 import 'package:rickandmorty/core/resources/widgets/snackbars/snackbars.dart';

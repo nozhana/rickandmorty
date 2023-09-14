@@ -1,9 +1,11 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rickandmorty/core/resources/navigation/beam_locations/beam_locations.dart';
-import 'package:rickandmorty/core/resources/navigation/beam_locations/profile_beam_location.dart';
-import 'package:rickandmorty/core/resources/navigation/widgets/base_navigatable_scaffold.dart';
+import 'package:rickandmorty/core/navigation/beam_locations/beam_locations.dart';
+import 'package:rickandmorty/core/navigation/beam_locations/profile_beam_location.dart';
+import 'package:rickandmorty/core/navigation/widgets/base_navigatable_scaffold.dart';
+import 'package:rickandmorty/core/resources/widgets/switches/light_switch.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class BaseNavigationRail extends StatefulWidget {
   const BaseNavigationRail({super.key, required this.beamerKey});
@@ -60,8 +62,8 @@ class _BaseNavigationRailState extends State<BaseNavigationRail> {
 
     return NavigationRail(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      extended: MediaQuery.of(context).size.width >
-          BaseNavigatableScaffold.desktopBreakingPoint,
+      extended:
+          context.screenWidth > BaseNavigatableScaffold.desktopBreakingPoint,
       selectedLabelTextStyle: Theme.of(context).textTheme.bodyLarge,
       unselectedLabelTextStyle: Theme.of(context)
           .textTheme
@@ -109,6 +111,12 @@ class _BaseNavigationRailState extends State<BaseNavigationRail> {
             break;
         }
       }),
+      trailing: [
+        64.heightBox,
+        LightSwitch(
+            isExtended: context.screenWidth >
+                BaseNavigatableScaffold.desktopBreakingPoint)
+      ].vStack(crossAlignment: CrossAxisAlignment.center),
     );
   }
 }

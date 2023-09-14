@@ -1,9 +1,9 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
-import 'package:rickandmorty/core/resources/navigation/beam_locations/beam_locations.dart';
-import 'package:rickandmorty/core/resources/navigation/beam_locations/profile_beam_location.dart';
-import 'package:rickandmorty/core/resources/navigation/widgets/base_navigation_bar.dart';
-import 'package:rickandmorty/core/resources/navigation/widgets/base_navigation_rail.dart';
+import 'package:rickandmorty/core/navigation/beam_locations/beam_locations.dart';
+import 'package:rickandmorty/core/navigation/beam_locations/profile_beam_location.dart';
+import 'package:rickandmorty/core/navigation/widgets/base_navigation_bar.dart';
+import 'package:rickandmorty/core/navigation/widgets/base_navigation_rail.dart';
 
 class BaseNavigatableScaffold extends StatefulWidget {
   BaseNavigatableScaffold({super.key});

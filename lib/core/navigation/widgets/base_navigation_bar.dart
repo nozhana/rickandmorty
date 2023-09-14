@@ -2,8 +2,8 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rickandmorty/core/resources/navigation/beam_locations/beam_locations.dart';
-import 'package:rickandmorty/core/resources/navigation/beam_locations/profile_beam_location.dart';
+import 'package:rickandmorty/core/navigation/beam_locations/beam_locations.dart';
+import 'package:rickandmorty/core/navigation/beam_locations/profile_beam_location.dart';
 
 class BaseNavigationBar extends StatefulWidget {
   // ignore: use_key_in_widget_constructors
