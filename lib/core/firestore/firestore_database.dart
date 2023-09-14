@@ -3,20 +3,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirestoreDatabase {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  Future<String> addDocument(
+  Future<String?> addDocument(
       {required String collectionPath,
       required Map<String, dynamic> data}) async {
-    final documentReference = await _db.collection(collectionPath).add(data);
-    return documentReference.id;
+    try {
+      final documentReference = await _db.collection(collectionPath).add(data);
+      return documentReference.id;
+    } catch (_) {
+      return null;
+    }
   }
 
-  Future<String> addObject<T>(
+  Future<String?> addObject<T>(
       {required String collectionPath,
       required T data,
       required ObjectEncoder<T> objectEncoder}) async {
-    final documentReference =
-        await _db.collection(collectionPath).add(objectEncoder(data));
-    return documentReference.id;
+    try {
+      final documentReference =
+          await _db.collection(collectionPath).add(objectEncoder(data));
+      return documentReference.id;
+    } catch (_) {
+      return null;
+    }
   }
 
   Future<String?> getDocumentIdByField(
@@ -25,8 +33,12 @@ class FirestoreDatabase {
       required Object match}) async {
     Query<Map<String, dynamic>> query;
     query = _db.collection(collectionPath).where(field, isEqualTo: match);
-    final snapshot = await query.get();
-    return snapshot.docs.firstOrNull?.id;
+    try {
+      final snapshot = await query.get();
+      return snapshot.docs.firstOrNull?.id;
+    } catch (_) {
+      return null;
+    }
   }
 
   Future<void> setDocument(
@@ -36,7 +48,9 @@ class FirestoreDatabase {
       bool merge = true}) async {
     DocumentReference<Map<String, dynamic>> reference;
     reference = _db.collection(collectionPath).doc(documentId);
-    await reference.set(data, SetOptions(merge: merge));
+    try {
+      await reference.set(data, SetOptions(merge: merge));
+    } catch (_) {}
   }
 
   Future<void> setObject<T>(
@@ -47,15 +61,21 @@ class FirestoreDatabase {
       bool merge = true}) async {
     DocumentReference<Map<String, dynamic>> reference;
     reference = _db.collection(collectionPath).doc(documentId);
-    await reference.set(objectEncoder(data), SetOptions(merge: merge));
+    try {
+      await reference.set(objectEncoder(data), SetOptions(merge: merge));
+    } catch (_) {}
   }
 
   Future<Map<String, dynamic>?> getDocument(
       {required String collectionPath, required String documentId}) async {
     DocumentReference<Map<String, dynamic>> reference;
     reference = _db.collection(collectionPath).doc(documentId);
-    final snapshot = await reference.get();
-    return snapshot.data();
+    try {
+      final snapshot = await reference.get();
+      return snapshot.data();
+    } catch (_) {
+      return null;
+    }
   }
 
   Future<T?> getObject<T>(
@@ -74,8 +94,12 @@ class FirestoreDatabase {
       required Object match}) async {
     Query<Map<String, dynamic>> query;
     query = _db.collection(collectionPath).where(field, isEqualTo: match);
-    final snapshot = await query.get();
-    return snapshot.docs.firstOrNull?.data();
+    try {
+      final snapshot = await query.get();
+      return snapshot.docs.firstOrNull?.data();
+    } catch (_) {
+      return null;
+    }
   }
 
   Future<T?> getObjectByField<T>(
@@ -93,7 +117,9 @@ class FirestoreDatabase {
       {required String collectionPath, required String documentId}) async {
     DocumentReference<Map<String, dynamic>> reference;
     reference = _db.collection(collectionPath).doc(documentId);
-    await reference.delete();
+    try {
+      await reference.delete();
+    } catch (_) {}
   }
 
   Future<void> deleteFirstDocumentByField(
@@ -103,8 +129,10 @@ class FirestoreDatabase {
     Query<Map<String, dynamic>> query;
     query =
         _db.collection(collectionPath).where(field, isEqualTo: match).limit(1);
-    final snapshot = await query.get();
-    await snapshot.docs.firstOrNull?.reference.delete();
+    try {
+      final snapshot = await query.get();
+      await snapshot.docs.firstOrNull?.reference.delete();
+    } catch (_) {}
   }
 
   Stream<DocumentSnapshot<Map<String, dynamic>>> getDocumentStream(

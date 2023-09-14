@@ -25,8 +25,8 @@ abstract class ImageBucket {
           return const DataFailed.withMessage(
               "Failed to get download URL for image.");
         }
-      } on FirebaseException catch (e) {
-        return DataFailed.withMessage(e.message ?? e.code);
+      } catch (e) {
+        return DataFailed.withMessage(e.toString());
       }
     }
     return const DataFailed.withMessage("The given image file does not exist.");
@@ -49,8 +49,8 @@ abstract class ImageBucket {
         return const DataFailed.withMessage(
             "Failed to get download URL for image.");
       }
-    } on FirebaseException catch (e) {
-      return DataFailed.withMessage(e.message ?? e.code);
+    } catch (e) {
+      return DataFailed.withMessage(e.toString());
     }
   }
 
@@ -64,8 +64,8 @@ abstract class ImageBucket {
         return const DataFailed.withMessage(
             "Failed to get download URL for image.");
       }
-    } on FirebaseException catch (e) {
-      return DataFailed.withMessage(e.message ?? e.code);
+    } catch (e) {
+      return DataFailed.withMessage(e.toString());
     }
   }
 }
